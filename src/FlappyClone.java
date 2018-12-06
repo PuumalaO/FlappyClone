@@ -100,65 +100,56 @@ public class FlappyClone extends Application {
         AnimationTimer animator = new AnimationTimer(){
 
             
-            
-                @Override
-                public void handle(long arg0) 
+       @Override
+       public void handle(long arg0) 
+       {
+           randomSeed = rand.nextInt(3)+1;
+           playerY += fallSpeed;
+           
+           player.setCenterY(playerY);
+           collisionDetected = false;
+           for(Wall wall : walls)
+           {
+               wall.setFill(Color.BROWN);
+                //If wall piece is out of screen update its position to the other side of screen
+                if(wall.getX() == -100 && gameRunning)
                 {
-
-                    // UPDATE
-                          randomSeed = rand.nextInt(3)+1;
-                          playerY += fallSpeed;
-                          
-                          player.setCenterY(playerY);
-                          collisionDetected = false;
-                          for(Wall wall : walls)
-                          {
-                              wall.setFill(Color.BROWN);
-                              
-                              //If wall piece is out of screen update its position to the other side of screen
-                              if(wall.getX() == -100 && gameRunning)
-                              {
-                                  if(wall.isUpperWall == true)
-                                  {
-                                      wall.updatePosition(randomSeed, lastWallX + 350);         
-                                      
-                                  } 
-                                  
-                                  if(wall.isUpperWall == false)
-                                  {
-                                      wall.updatePosition(randomSeed, lastWallX);
-                                  }
-                              }
-                              
-                              lastWallX = wall.getX();
-                              
-                              wall.move();
-                              
-                              if (player.getBoundsInParent().intersects(wall.getBoundsInParent())) 
-                              {
-                                collisionDetected = true;
-                              }
-                              
-                              if (collisionDetected) 
-                              {
-                                this.stop();
-                                gameFailed = true;
-                              }
-                              
-                              if(gameFailed)
-                              {
-                                text.setText("Game failed\n press SPACE to try again");
-                                text.setX(100);
-                                text.setY(100);
-                                text.setVisible(true);
-                              }
-                                
-                                    
-                          }
-                }      
+                    if(wall.isUpperWall == true)
+                    {
+                        wall.updatePosition(randomSeed, lastWallX + 350);
+                    }
+                    
+                    if(wall.isUpperWall == false)
+                    {
+                        wall.updatePosition(randomSeed, lastWallX);
+                    }
+                }
                 
+                lastWallX = wall.getX();
                 
-            };
+                wall.move();
+                
+                if (player.getBoundsInParent().intersects(wall.getBoundsInParent()))
+                {
+                    collisionDetected = true;
+                }
+                
+                if (collisionDetected)
+                {
+                    this.stop();
+                    gameFailed = true;
+                }
+                
+                if(gameFailed)
+                {
+                    text.setText("Game failed\n press SPACE to try again");
+                    text.setX(100);
+                    text.setY(100);
+                    text.setVisible(true);
+                }
+           }
+       }
+      };             
 
         
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
