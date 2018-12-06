@@ -2,4 +2,4 @@
 
 ### This was made as a project for a Java course
 
-![](flappygif.gif)
+![](flappyclonegif.gif)
